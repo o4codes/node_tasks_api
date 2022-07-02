@@ -2,9 +2,10 @@ const app = require('express')();
 const { json } = require("express");
 const mongooose = require('mongoose');
 const todo_router = require('./routers/todo_routes');
+require('dotenv').config();
 
 
-const connectionString = 'mongodb://localhost:27017/todo';
+const connectionString = process.env.MONGO_DB_URL;
 
 mongooose.connect(connectionString, {
     useUnifiedTopology: true,
