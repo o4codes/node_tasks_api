@@ -8,12 +8,13 @@ const todo_db = require('../database/todo_db');
 
 async function listTodos(req, res) {
     try{
-        page = Number.parseInt(req.query.page)
-        size = Number.parseInt(req.query.size)
+        page = req.query.page ? Number.parseInt(req.query.page) : 1;
+        size = req.query.size ?  Number.parseInt(req.query.size): 10;
 
-        if (isNaN(page) || isNaN(size)) return res.status(400).json({ message: 'Invalid page or size' });
+        if (isNaN(page)) return res.status(400).json({ message: 'Invalid page' });
+        if (isNaN(size)) return res.status(400).json({ message: 'Invalid size' });
 
-        const todos = await todo_db.listTodos();
+        const todos = await todo_db.listTodos(size, page);
         return res.status(200).json(todos);
     }
     catch(err){
